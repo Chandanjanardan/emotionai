@@ -32,17 +32,21 @@ body{
     color: white;
     
   }
-  .warning{
+   .warningText{
     width: 100%;
     height: 200px;
-    background-color: #FFD1E3;
+    /* background-color: #FFD1E3; */
     color: red;
     display: flex;
     justify-content:center;
     align-items: center;
     margin: 250px auto;
-    display: none;
-  }
-  .warning h1{
+    
+  } 
+  .warningText h1{
     font-size: 50px;
+  } */
+  .warningText h1{
+    color: red;
+    
   }

@@ -13,11 +13,12 @@
         
     </nav>
     <audio class="warning" id="warningAudio" >
+      
         <source src="./sound2.mp3" />
       </audio>
-    <article class="warning" >
-        <h1>Please look at the Screen</h1>
-    </article>
+    <div class="warningText" >
+        <h1 class="warningHeading"></h1>
+    </div>
 
 
 
@@ -41,14 +42,15 @@
 
 
 
-    <video id="webcam" autoplay></video>
+    <video id="webcam" autoplay>
+      
+    </video>
 
 
     <!-- script start from here -->
 
     <script src="https://ai-sdk.morphcast.com/v1.16/ai-sdk.js"></script>
     <script>
-
 
         // this is for alaram when no face
         const config = {smoothness: 0.83,timeWindowMs: 10000, initialToleranceMs: 7000, threshold: 0.75};
@@ -76,32 +78,29 @@ loader = CY.loader()
 
 
 //   this is for alarm
-let shouldPlaySound = true;
-
-window.addEventListener(CY.modules().ALARM_NO_FACE.eventName, (evt) => {
-    let handleFaceDetection = evt.detail.output.noFace;
-
-    if (handleFaceDetection === true) {
-        console.log("Please look at the camera");
-        shouldPlaySound = true;
+// let shouldPlaySound = true
+let handleFaceDetection=""
+  window.addEventListener(CY.modules().ALARM_NO_FACE.eventName, (evt) => {
+    if (evt.detail.output.noFace == true) {
+      let warning = document.querySelector(".warning");
+      let warningHeading = document.querySelector(".warningHeading")
+      warningHeading.innerText="Please look at the camera "
+        handleFaceDetection="true"
+      console.log("Please look at the camera");
+      warning.play();
+      console.log(handleFaceDetection)
+    
     } else {
-        console.log("It's okay now");
-        shouldPlaySound = false;
-        toggleSound();
-    }
-});
-
-function toggleSound() {
-    let audio = document.getElementById("warningAudio");
-
-    if (shouldPlaySound) {
-        audio.setAttribute('autoplay', '');
-        audio.setAttribute('loop', '');
-    } else {
-        audio.removeAttribute('autoplay');
-        audio.removeAttribute('loop');
-    }
-}
+      let warning = document.querySelector(".warning");
+      let warningHeading = document.querySelector(".warningHeading")
+      warningHeading.innerText=""
+        handleFaceDetection="false"
+      // console.log("It's okay now");
+      warning.pause()
+      // console.log(handleFaceDetection)
+      }
+  });
+  console.log("this is face deteciton value",handleFaceDetection)
 
 
 
@@ -142,7 +141,18 @@ let blockNaming="hello how are you "
 
 //   controlling audio
 
-
+let shouldPlaySound=true
+function toggleSound() {
+  let audio = document.getElementById("warningAudio");
+  
+  if (shouldPlaySound) {
+    audio.setAttribute('autoplay', '');
+    audio.setAttribute('loop', '');
+  } else {
+    audio.removeAttribute('autoplay');
+    audio.removeAttribute('loop');
+  }
+}
 
 
 
