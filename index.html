@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css"/>
+    <title>Emotion AI</title>
+</head>
+<body>
+    <nav class="nav">
+        <h1>Face Emotion AI</h1>
+        
+        
+    </nav>
+    <audio class="warning" id="warningAudio" >
+        <source src="./sound2.mp3" />
+      </audio>
+    <article class="warning" >
+        <h1>Please look at the Screen</h1>
+    </article>
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <video id="webcam" autoplay></video>
+
+
+    <!-- script start from here -->
+
+    <script src="https://ai-sdk.morphcast.com/v1.16/ai-sdk.js"></script>
+    <script>
+
+
+        // this is for alaram when no face
+        const config = {smoothness: 0.83,timeWindowMs: 10000, initialToleranceMs: 7000, threshold: 0.75};
+loader = CY.loader()
+    CY.loader()
+      .licenseKey("49b35cc0ec6cdf2aa3d527a6b9f82a4bde87e9f5b22a")
+      .addModule(CY.modules().FACE_DETECTOR.name) //this detect the face
+      .addModule(CY.modules().FACE_GENDER.name)  //this detect the gender
+      .addModule(CY.modules().ALARM_NO_FACE.name, config) // this detect presence of person is in view or not
+      .addModule(CY.modules().FACE_ATTENTION.name, config) //this will detect the attention level of the user for 0 - 1
+      .addModule(CY.modules().FACE_EMOTION.name, config) //this is for emotions
+      .load()
+      .then(({ start, stop }) => start());
+    
+    window.addEventListener(CY.modules().FACE_DETECTOR.eventName, (evt) => {
+    //   console.log('Face detector result', evt.detail);
+    });
+
+
+
+    // face gender logic start here
+    window.addEventListener(CY.modules().FACE_GENDER.eventName, (evt) => {
+//   console.log('Gender result', evt.detail.output.mostConfident);
+});
+
+
+//   this is for alarm
+let shouldPlaySound = true;
+
+window.addEventListener(CY.modules().ALARM_NO_FACE.eventName, (evt) => {
+    let handleFaceDetection = evt.detail.output.noFace;
+
+    if (handleFaceDetection === true) {
+        console.log("Please look at the camera");
+        shouldPlaySound = true;
+    } else {
+        console.log("It's okay now");
+        shouldPlaySound = false;
+        toggleSound();
+    }
+});
+
+function toggleSound() {
+    let audio = document.getElementById("warningAudio");
+
+    if (shouldPlaySound) {
+        audio.setAttribute('autoplay', '');
+        audio.setAttribute('loop', '');
+    } else {
+        audio.removeAttribute('autoplay');
+        audio.removeAttribute('loop');
+    }
+}
+
+
+
+
+
+
+
+
+// face attension registraion
+window.addEventListener(CY.modules().FACE_ATTENTION.eventName, (evt) => {
+    let attensionValue = evt.detail.output.attention
+//   console.log('Face attention result', attensionValue);
+});
+
+// emotion value registraiton
+window.addEventListener(CY.modules().FACE_EMOTION.eventName, (evt) => {
+  console.log('Emotion result', evt.detail.output.dominantEmotion);
+let blockNaming="hello how are you "
+});
+
+
+    </script>
+
+    <!-- adding custom webcam -->
+    <script>
+        // Access the webcam using getUserMedia
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then((stream) => {
+            let video = document.getElementById('webcam');
+            video.srcObject = stream;
+          })
+          .catch((err) => {
+            console.error('Error accessing the webcam: ', err);
+          });
+
+
+
+
+//   controlling audio
+
+
+
+
+
+
+
+      </script>
+    ...
+    </body>
+</html>
