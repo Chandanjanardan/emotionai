@@ -8,16 +8,27 @@
 </head>
 <body>
     <nav class="nav">
-        <h1>Face Emotion AI</h1>
+        <h1></h1>
+        <h1 class="logo">Face Emotion AI</h1>
+        <div class="logs">
+          <h1 >LOGS</h1>
+        </div>
+
+        </nav>
+        <div class="logs-container">
+          <p>Gender :<span class="gender">Male</span></p>
+          <p>Attention :<span class="attension">1</span></p>
+          <p>Faces :<span class="faces">1</span></p>
+        </div>
+    <div class="container">
+
+      <audio class="warning" id="warningAudio" >
         
-        
-    </nav>
-    <audio class="warning" id="warningAudio" >
-      
         <source src="./sound2.mp3" />
       </audio>
-    <div class="warningText" >
+      <div class="warningText" >
         <h1 class="warningHeading"></h1>
+      </div>
     </div>
 
 
@@ -40,9 +51,11 @@
 
 
 
+    <div class="web-container">
 
-
-    <video id="webcam" autoplay>
+      <h3 class="emotions">Happy</h3>
+      <video id="webcam" autoplay>
+    </div>
       
     </video>
 
@@ -66,14 +79,21 @@ loader = CY.loader()
       .then(({ start, stop }) => start());
     
     window.addEventListener(CY.modules().FACE_DETECTOR.eventName, (evt) => {
-    //   console.log('Face detector result', evt.detail);
+      console.log('Face detector result', evt.detail);
     });
 
 
 
     // face gender logic start here
     window.addEventListener(CY.modules().FACE_GENDER.eventName, (evt) => {
-//   console.log('Gender result', evt.detail.output.mostConfident);
+      let genderDisplay = document.querySelector(".gender")
+      let gender = evt.detail.output.mostConfident
+      if(gender == "Male"){
+        genderDisplay.innerText="MALE"
+      }else{
+        genderDisplay.innerText="FEMALE"
+      }
+  // console.log('Gender result', evt.detail.output.mostConfident);
 });
 
 
@@ -84,11 +104,11 @@ let handleFaceDetection=""
     if (evt.detail.output.noFace == true) {
       let warning = document.querySelector(".warning");
       let warningHeading = document.querySelector(".warningHeading")
-      warningHeading.innerText="Please look at the camera "
+      warningHeading.innerText="Please look at the camera"
         handleFaceDetection="true"
-      console.log("Please look at the camera");
+      // console.log("Please look at the camera");
       warning.play();
-      console.log(handleFaceDetection)
+      // console.log(handleFaceDetection)
     
     } else {
       let warning = document.querySelector(".warning");
@@ -100,7 +120,6 @@ let handleFaceDetection=""
       // console.log(handleFaceDetection)
       }
   });
-  console.log("this is face deteciton value",handleFaceDetection)
 
 
 
@@ -112,13 +131,20 @@ let handleFaceDetection=""
 // face attension registraion
 window.addEventListener(CY.modules().FACE_ATTENTION.eventName, (evt) => {
     let attensionValue = evt.detail.output.attention
-//   console.log('Face attention result', attensionValue);
+    let attension = document.querySelector(".attension")
+setInterval(()=>{
+  console.log("test time interval")
+},2000)
+  // console.log('Face attention result', attensionValue);
 });
 
 // emotion value registraiton
 window.addEventListener(CY.modules().FACE_EMOTION.eventName, (evt) => {
-  console.log('Emotion result', evt.detail.output.dominantEmotion);
-let blockNaming="hello how are you "
+  let emotions = document.querySelector(".emotions")
+  // console.log(emotions)
+  let emotionsResult= evt.detail.output.dominantEmotion
+  // console.log('Emotion result', emotionsResult)
+  emotions.innerText=emotionsResult
 });
 
 
@@ -153,7 +179,6 @@ function toggleSound() {
     audio.removeAttribute('loop');
   }
 }
-
 
 
 
