@@ -15,24 +15,41 @@
         </div>
 
         </nav>
-        <!-- <div class="quiz-container">
-          <div class="question">1. What is the capital of France?</div>
+        <div class="quiz-start">
+          <h1>Welcome to self assesment test. To start the assesment click <strong>START</strong></h1>
+          <!-- <button class="button-56" onclick="startTracker()">RESET BEFORE START</button> -->
+          <button class="button-56" onclick="startTracker()">START</button>
+        </div>
+         <div class="quiz-container">
+          <div class="question">1. As a child I was (or had) concentration problems, easily distracted</div>
           <ul class="options">
             <li class="option">
               <input type="radio" name="q1" id="q1a" value="a">
-              <label for="q1a">a) Paris</label>
+              <label for="q1a">a) Not at all</label>
             </li>
             <li class="option">
               <input type="radio" name="q1" id="q1b" value="b">
-              <label for="q1b">b) Rome</label>
+              <label for="q1b">b) Mildly</label>
             </li>
             <li class="option">
               <input type="radio" name="q1" id="q1c" value="c">
-              <label for="q1c">c) Berlin</label>
+              <label for="q1c">c) Moderately</label>
             </li>
+            <li class="option">
+              <input type="radio" name="q1" id="q1d" value="d">
+              <label for="q1d">d) Quite a Bit</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q1" id="q1e" value="e">
+              <label for="q1e">e) Very Much</label>
+            </li>
+            <a href="./result.html">
+
+              <button onclick="stopTracker()">SUBMIT</button>
+            </a>
           </ul>
         </div>
-        
+        <!--  
         <div class="quiz-container">
           <div class="question">2. Which programming language is known for its use in web development?</div>
           <ul class="options">
@@ -68,9 +85,21 @@
             </li>
           </ul>
         </div> -->
+        <div class="timer-container" style="display: none;">
+          <div id="timer">0 seconds</div>
+          <button id="startBtn" onclick="startTracker()">Start Tracking</button>
+          <button id="stopBtn" onclick="stopTracker()">Stop Tracking</button>
+          <button id="resetBtn" onclick="resetTracker()">Reset Tracker</button>
+        </div>
+
+        <!-- emotion display -->
+        <div class="emotion-results" style="display: none;">
+          <h2>Emotion Counts</h2>
+          <ul id="emotionList"></ul>
+        </div>
         <div class="logs-container">
           <p>Gender :<span class="gender">Male</span></p>
-          <p>Attention :<span class="attension">1</span></p>
+          <!-- <p>Attention :<span class="attension">1</span></p> -->
           <p>Faces :<span class="faces">1</span></p>
           <div class="close">
             <p class="closebtn"onclick="handleLogsContainerClose()">close</p>
@@ -118,7 +147,7 @@
 
 
     <!-- script start from here -->
-
+    <script src="./script.js"></script>
     <script src="https://ai-sdk.morphcast.com/v1.16/ai-sdk.js"></script>
     <script>
 
@@ -138,7 +167,7 @@ loader = CY.loader()
     window.addEventListener(CY.modules().FACE_DETECTOR.eventName, (evt) => {
       let faces= document.querySelector(".faces")
       faces.innerText=evt.detail.totalFaces
-      console.log('Face detector result', evt.detail.totalFaces);
+      // console.log('Face detector result', evt.detail.totalFaces);
     });
 
 
@@ -190,24 +219,30 @@ let handleFaceDetection=""
 // face attension registraion
 window.addEventListener(CY.modules().FACE_ATTENTION.eventName, (evt) => {
     let attensionValue = evt.detail.output.attention
-    let attension = document.querySelector(".attension")
-    setInterval(()=>{
-      if(attensionValue>.2){
+    // let attension = document.querySelector(".attension")
+    // setInterval(()=>{
+    //   if(attensionValue>.2){
 
-        attension.innerText="HIGH"
-      }else{
-        attension.innerText="LOW"
-      }
+    //     attension.innerText="HIGH"
+    //   }else{
+    //     attension.innerText="LOW"
+    //   }
       
-    },1000)
+    // },1000)
   // console.log('Face attention result', attensionValue);
 });
 
 // emotion value registraiton
 window.addEventListener(CY.modules().FACE_EMOTION.eventName, (evt) => {
   let emotions = document.querySelector(".emotions")
-  // console.log(emotions)
+  let happy= 0
+  let neutral= 0
   let emotionsResult= evt.detail.output.dominantEmotion
+  console.log(emotionsResult)
+  if(emotionsResult=="happy"){
+    happy=happy+1
+  }
+  console.log(happy)
   // console.log('Emotion result', emotionsResult)
   emotions.innerText=emotionsResult
 });
@@ -267,6 +302,7 @@ function handleLogsContainerClose(){
 
 
       </script>
+     
     ...
     </body>
 </html>
