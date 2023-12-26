@@ -11,14 +11,70 @@
         <h1></h1>
         <h1 class="logo">Face Emotion AI</h1>
         <div class="logs">
-          <h1 >LOGS</h1>
+          <h1 onclick="handleLogsContainer()">LOGS</h1>
         </div>
 
         </nav>
+        <!-- <div class="quiz-container">
+          <div class="question">1. What is the capital of France?</div>
+          <ul class="options">
+            <li class="option">
+              <input type="radio" name="q1" id="q1a" value="a">
+              <label for="q1a">a) Paris</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q1" id="q1b" value="b">
+              <label for="q1b">b) Rome</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q1" id="q1c" value="c">
+              <label for="q1c">c) Berlin</label>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="quiz-container">
+          <div class="question">2. Which programming language is known for its use in web development?</div>
+          <ul class="options">
+            <li class="option">
+              <input type="radio" name="q2" id="q2a" value="a">
+              <label for="q2a">a) Java</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q2" id="q2b" value="b">
+              <label for="q2b">b) Python</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q2" id="q2c" value="c">
+              <label for="q2c">c) JavaScript</label>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="quiz-container">
+          <div class="question">3. What is the capital of Japan?</div>
+          <ul class="options">
+            <li class="option">
+              <input type="radio" name="q3" id="q3a" value="a">
+              <label for="q3a">a) Tokyo</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q3" id="q3b" value="b">
+              <label for="q3b">b) Beijing</label>
+            </li>
+            <li class="option">
+              <input type="radio" name="q3" id="q3c" value="c">
+              <label for="q3c">c) Seoul</label>
+            </li>
+          </ul>
+        </div> -->
         <div class="logs-container">
           <p>Gender :<span class="gender">Male</span></p>
           <p>Attention :<span class="attension">1</span></p>
           <p>Faces :<span class="faces">1</span></p>
+          <div class="close">
+            <p class="closebtn"onclick="handleLogsContainerClose()">close</p>
+          </div>
         </div>
     <div class="container">
 
@@ -30,6 +86,7 @@
         <h1 class="warningHeading"></h1>
       </div>
     </div>
+    
 
 
 
@@ -79,7 +136,9 @@ loader = CY.loader()
       .then(({ start, stop }) => start());
     
     window.addEventListener(CY.modules().FACE_DETECTOR.eventName, (evt) => {
-      console.log('Face detector result', evt.detail);
+      let faces= document.querySelector(".faces")
+      faces.innerText=evt.detail.totalFaces
+      console.log('Face detector result', evt.detail.totalFaces);
     });
 
 
@@ -132,9 +191,15 @@ let handleFaceDetection=""
 window.addEventListener(CY.modules().FACE_ATTENTION.eventName, (evt) => {
     let attensionValue = evt.detail.output.attention
     let attension = document.querySelector(".attension")
-setInterval(()=>{
-  console.log("test time interval")
-},2000)
+    setInterval(()=>{
+      if(attensionValue>.2){
+
+        attension.innerText="HIGH"
+      }else{
+        attension.innerText="LOW"
+      }
+      
+    },1000)
   // console.log('Face attention result', attensionValue);
 });
 
@@ -179,6 +244,24 @@ function toggleSound() {
     audio.removeAttribute('loop');
   }
 }
+// handle logs container
+
+function handleLogsContainer(){
+  let log= document.querySelector(".logs-container")
+  log.style.transform="translateX(-0px)"
+  log.style.transition="all 1s ease-in"
+  console.log(log)
+}
+
+
+function handleLogsContainerClose(){
+  let log= document.querySelector(".logs-container")
+  log.style.transform="translateX(250px)"
+  log.style.transition="all 1s ease-in"
+  console.log(log)
+}
+
+// handleLogsContainer()
 
 
 
