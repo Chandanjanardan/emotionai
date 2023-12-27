@@ -2,24 +2,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 body{
-    background-color: #C3E2C2;
+    background-color: #7C93C3;
     color:black;
     /* background-image: url(https://images.pexels.com/photos/207740/pexels-photo-207740.jpeg?auto=compress&cs=tinysrgb&w=1260& h=750&dpr=1); */
 
 }
 .quiz-start{
   width: 90%;
-  height: 200px;
+  height: 150px;
   margin: auto;
-  color: black;
+  color: white;
   display: flex;
   gap: 25px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: -1;
 }
 button{
   width: 150px;
@@ -52,17 +53,17 @@ button:hover{
     right: 20px;
     font-size: 20px;
     text-transform: uppercase;
-    color: #CD8D7A;
+    color: white;
   }
   .nav{
     margin: 0 auto;
-    background-color: #DBCC95;
+    background-color: #22092C;
     width: 100%;
     height: 95px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #c65e3e;
+    color: white;
     padding: 10px 10px;
   }
   .nav .logo{
@@ -94,6 +95,8 @@ button:hover{
   }
  
    .warningText{
+    position:absolute;
+    top: 0;
     width: 100%;
     height: 200px;
     /* background-color: #FFD1E3; */
@@ -102,6 +105,7 @@ button:hover{
     justify-content:center;
     align-items: center;
     margin: 250px auto;
+    z-index: -1;
     
   } 
   .warningText h1{
@@ -136,7 +140,8 @@ button:hover{
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transform: translateX(1200px);
+    transform: translateX(1500px);
+    z-index: 999;
   }
 
   .question {
@@ -168,4 +173,36 @@ button:hover{
   input[type="radio"]:checked + label {
     background-color: #66bb6a;
     color: #fff;
+  }
+  .emotion-results{
+    margin: 50px auto;
+  }
+  .emotion-results h1{
+    font-size: 45px;
+    color: white;
+  }
+  #emotionList li{
+    font-size: 20px;
+    margin: 10px auto;
+    text-transform: capitalize;
+    font-weight: 900;
+    color: #e6f516;
+  }
+  footer{
+  
+    margin: auto 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    height: 150px;
+    width: 100%;
+    background-color: black;
+    
+  }
+  footer svg{
+    width: 50px;
+    color: white;
+    /* background-color: red; */
+  
   }

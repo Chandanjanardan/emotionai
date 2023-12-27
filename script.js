@@ -21,10 +21,10 @@ let startTime;
 
   function resetTracker() {
     clearInterval(timerInterval);
+    localStorage.removeItem('emotionCounts');
     document.getElementById('timer').textContent = '0 seconds';
     emotionCounts = {};
     updateEmotionResults();
-    localStorage.removeItem('emotionCounts');
   }
 
   function updateTimer() {
@@ -72,3 +72,22 @@ let startTime;
     // Replace this with your logic to get the current emotion
     return document.querySelector(".emotions").textContent.toLowerCase();
   }
+  function getResult() {
+    if (localStorage.getItem("emotionCounts")) {
+      let result = localStorage.getItem("emotionCounts");
+      let emotionList = document.querySelector("#emotionList");
+      let parsedResult = JSON.parse(result);
+  
+      for (let emotion in parsedResult) {
+        const count = parsedResult[emotion];
+        const listItem = document.createElement('li');
+        listItem.textContent = `${emotion}: ${count} times`;
+        emotionList.appendChild(listItem);
+      }
+    } else {
+      console.log("No emotions recorded");
+    }
+  }
+  
+  getResult();
+  
